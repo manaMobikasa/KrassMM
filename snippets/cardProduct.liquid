@@ -1,0 +1,28 @@
+<a href="{{ card_product.url }}" class="prdct">
+    <div class="productCard">
+        <div class="productImg">
+            <img src="{{ card_product.featured_media |img_url:'master' }}" alt="{{ card_product.title }}">
+
+            <div class="prdctVariantDiv">
+                {% if card_product.variants[0].available %}
+                {% for variant in card_product.variants %}
+                <img src="{{ variant.featured_media | img_url:" small" }}" alt="{{ variant.title }}"
+                    class="prdctVariantImg">
+
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="prdctInfo">
+            <div class="productTitleBox">
+                <p class="fontKirvy productTitle">{{ card_product.title }}</p>
+            </div>
+            <p class="fontKirvy actualPrice">{{ card_product.price | money_without_trailing_zeros }} {% if
+                card_product.compare_at_price_max >0 %}
+                <span class="td-lt comparePrice">{{ card_product.compare_at_price_max | money_without_trailing_zeros
+                    }}</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</a>

@@ -1,0 +1,318 @@
+{% capture yourCart %}
+{% render 'icon-shopping-cart' %}
+{% endcapture %}
+<section id="cartPg">
+    {% if cart.item_count > 0 %}
+    <div class="content">
+        <form action="{{ routes.cart_url }}" method="post">
+
+            <div class="yourCart">
+                <p class="yourCartP fontTitania">Your Cart</p>
+                <div class="total">
+                    <p class="totalP fontKirvy">Subtotal</p>
+                    <p class="totalP fontKirvy">{{ cart.total_price | money_without_trailing_zeros}}</p>
+                </div>
+                <button type="submit" name="checkout" class="checkout1 chkout1stl fontKirvy">{{
+                    yourCart }}CHECKOUT</button>
+            </div>
+
+            <table class="itemTable">
+                <tbody>
+                    {% for item in cart.items %}
+                    <tr class="cartItemRow">
+                        <td class="cartItem">
+                            <div class="cartitemImgBlk">
+                                <a href="{{ item.url | within:collections.all }}">
+                                    <img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}"
+                                        class="cartitemImg">
+                                </a>
+                            </div>
+                            <div class="cartitemInfo">
+                                <a href="{{ item.url }}" class="fontKirvy cartItemName">{{
+                                    item.product.title }}</a>
+                                <quantity-input class="quantity" style="width: 111px;">
+                                    <button class="quantity__button no-js-hidden" name="minus" type="button">
+                                        <span class="visually-hidden">
+                                            {{- 'products.product.quantity.decrease' | t: product:
+                                            product.title | escape -}}
+                                        </span>
+                                        {% render 'icon-minus' %}
+                                    </button>
+                                    <input class="quantity__input fontKirvy" type="number" name="quantity"
+                                        id="Quantity-{{ section.id }}" min="1" value="1" form="{{ product_form_id }}">
+                                    <button class="quantity__button no-js-hidden" name="plus" type="button">
+                                        <span class="visually-hidden">
+                                            {{- 'products.product.quantity.increase' | t: product:
+                                            product.title | escape -}}
+                                        </span>
+                                        {% render 'icon-plus' %}
+                                    </button>
+                                </quantity-input>
+                                <div class="priceBlk">
+                                    <p class="cartitemPrice fontKirvy" style="color: black;">{{ item.price |
+                                        money_without_trailing_zeros
+                                        }}
+                                    </p>
+                                    <p class="removeItem">
+                                        <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+                                            style="text-decoration: none;">{% render 'icon-close-small' %}</a>
+                                    </p>
+
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                <div class="totalF">
+                    <p class=" totalFS fontKirvy">Subtotal</p>
+                    <p class=" totalFS fontKirvy">{{ cart.total_price | money_without_trailing_zeros}}</p>
+                </div>
+                <p class="fontKirvy">Shipping & taxes calculated at checkout</p>
+                <a href="" class="calcShipp">
+                    <p class="fontKirvy ">Calculate Shipping</p>
+                </a>
+                <button type="submit" name="checkout" class="checkout2 chkout1stl fontKirvy">{{
+                    yourCart }}CHECKOUT</button>
+                <a href="{{ routes.collections_url }}" class="fontKirvy contShop">Continue shopping {% render
+                    'icon-caret' %} </a>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="content">
+        <div class="myCartBody">
+            <h2 class="myCart">Your Cart</h2>
+            <p>Cart Is Empty</p>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+
+
+{% stylesheet %}
+p{
+margin:0;
+}
+#cartPg{
+display:flex;
+justify-content:center;
+align-items:center;
+background: #F9F9F9 0% 0% no-repeat padding-box;
+padding:25px 0;
+}
+.content{
+width: 94.7vw;
+max-width: 860px;
+}
+.yourCart{
+display: grid;
+grid-template-columns: auto auto;
+justify-content: space-between;
+line-height: 1;
+}
+.yourCartP{
+font-size:clamp(20px,26px,28px);
+margin: 0;
+}
+.total{
+grid-column-start: 1;
+font-size:13px;
+}
+.checkout1{
+grid-row-start: 1;
+grid-row-end: 3;
+grid-column-start: 2;
+width:131px;
+}
+.chkout1stl{
+background-color: #AC7920;
+font-size: 14px;
+color: white;
+border: 1px solid transparent;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+font-weight:bold
+}
+.totalP{
+display:inline;
+font-size:13px;
+}
+
+.cartItem{
+display:flex;
+}
+
+.itemTable{
+width: 100%;
+margin: 14px 0;
+border-spacing: 0 12px;
+border-bottom: 1px solid #E9E9E9;
+}
+.cartitemImgBlk{
+width:93px;
+height:93px;
+}
+
+.cartitemImg{
+width: 100%;
+height: 100%;
+object-fit: cover;
+margin:2px;
+}
+.cartitemInfo{
+display: flex;
+flex-direction: column;
+line-height: 2.7;
+width:70%;
+margin-left:10px;
+}
+.cartItemName{
+text-decoration: none;
+color: black;
+font-size: 16px;
+font-weight: bold;
+width: 232px;
+}
+.cartitemPrice{
+font-size: 16px;
+margin: 0;
+}
+.priceBlk{
+position:relative;
+}
+.priceBlk>p{
+display:inline;
+}
+.cartItemRow{
+background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 3px 6px #00000008;
+border: 1px solid #EFEFEF;
+}
+.quantity{
+height: 50px;
+box-shadow: 0px 3px 5px #00000000;
+border: 1px solid #E1E1E1;
+}
+.totalF{
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: bold;
+color: black;
+}
+.totalFS{
+margin:0;
+}
+.totalFS:first-child{
+font-size:22px;
+}
+.totalFS:last-child{
+font-size:26px;
+}
+.calcShipp{
+text-decoration: none;
+color: #AC7920;
+font-weight: bold;
+}
+.checkout2{
+width: 100%;
+padding: 14px;
+margin: 12px 0;
+margin-top:20px;
+}
+.contShop{
+font-weight: bold;
+text-decoration: none;
+color: #AC7920;
+display: block;
+margin: auto;
+text-align: center;
+}
+.contShop>svg{
+transform: rotate(270deg);
+width: 12px;
+}
+.removeItem{
+position:absolute;
+right:0;
+top:0;
+}
+#shopping-cart>circle,#shopping-cart>path{
+stroke: white;
+}
+@media (min-width:1000px){
+#cartPg{
+margin:55px 0;
+}
+.yourCart{
+display: grid;
+grid-template-columns: auto auto auto;
+grid-template-rows: auto;
+align-items: center;
+}
+.total{
+grid-column-start: 2;
+grid-column-end: 3;
+text-align:end;
+padding-left: 480px;
+}
+.totalP{
+display:block;
+margin:0;
+}
+
+.totalP:first-child{
+font-size:14px;
+}
+.totalP:last-child{
+font-size:20px;
+font-weight: bold;
+}
+.checkout1 {
+grid-column-start: 3;
+grid-row-start: 1;
+grid-row-end: 2;
+width: 142px;
+height: 44px;
+}
+.checkout2{
+font-size:21px;
+}
+.cartitemImgBlk{
+width:120px;
+height:120px;
+}
+.removeItem{
+right: -148px;
+top: 0;
+}
+.cartitemInfo{
+flex-direction:row;
+justify-content:space-around;
+align-items:center;
+}
+}
+{% endstylesheet %}
+
+{% javascript %}
+
+{% endjavascript %}
+{% schema %}
+{
+"name":"krass_Cart",
+"settings": [],
+"presets":[
+{
+"name":"myCart",
+"category":"cart"
+}
+]
+}
+{% endschema %}

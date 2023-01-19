@@ -1,0 +1,16 @@
+@font-face {
+    font-family:'Titania';
+    src: url('https://cdn.shopify.com/s/files/1/0619/0039/0599/files/Titania-Regular.ttf?v=1672984449');
+}
+
+@font-face {
+    font-family: 'Kirvy';
+    src: url('https://cdn.shopify.com/s/files/1/0619/0039/0599/files/Kirvy-Light.otf?v=1672929076');
+}
+.fontTitania{
+    font-family: 'Titania';
+}
+
+.fontKirvy{
+    font-family: 'Kirvy';
+}

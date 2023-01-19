@@ -1,0 +1,439 @@
+.bgC{
+    background: #F9F9F9 0% 0% no-repeat padding-box;
+}
+.hidden{
+    display: none;
+}
+.flxView{
+    display: flex;
+    justify-content:space-between;
+}
+.w-100{
+    width:100%;
+}
+
+.dis-flx{
+    display:flex;
+}
+
+.prdct,.reset{
+    text-decoration: none;
+    color: transparent;
+}
+.reset{
+    color: #363637;
+}
+
+.searchbar{
+    width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 1px solid #EFEFEF;
+}
+
+.searchbar>input[type="text"]{
+    width: 100%;
+    padding: 13px;
+    font-size: 1.4vw;
+    border: none;
+}
+.searchbar>input[type="text"]:focus-visible{
+    border: none;
+}
+.collectionPg{
+    padding: 17px 10px;
+}
+.collectionPageSection{
+    background: #F9F9F9 0% 0% no-repeat padding-box;
+}
+
+.sortView{
+    display: flex;
+    justify-content: flex-end;
+}
+.productCard{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+}
+.productCard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 23px;
+}
+
+
+.productImg {
+    width: 157px;
+    height: 157px;
+    position: relative;
+}
+
+.productImg>img {
+    width: 100%;
+    object-fit: contain;
+}
+.td-lt{
+    text-decoration: line-through;
+}
+.productTitleBox{
+    width: 100%;
+}
+.productTitle{
+    font-size: 14px;
+    margin: 0;
+    color: #363637;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.comparePrice{
+    font-size: 14px;
+    color: #818181;   
+}
+.actualPrice{
+    
+    font-weight: 700;
+    color: #363637;
+    font-size: 15px;
+    margin: 9px 0px 4px;
+}
+
+.filterType{
+    border-top: 1px solid #d5d3d3;
+    
+    font-size: 1.5rem;
+    padding: 30px 0;
+    width: 100%;
+    }
+.breadcrumbs__link{
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+} 
+a[aria-current="page"]{
+    color:#949494;
+    font-size: 15px;
+}  
+.sortBlk>span{
+    margin-right: 11px;
+    color: black;
+    font-weight: bold;
+}
+.sortBlk>select{
+    display:none;
+} 
+    .sortOption{
+    word-wrap: normal;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    height: 70%;
+    }
+.mobSortOption{
+    display: none;
+    position: fixed;
+    width: 95%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 5;
+    padding: 10px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    height: 65%;
+}
+  
+    .viewSelect>span{
+        display: none;
+    }
+.viewSelect{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-weight: bold;
+}
+.viewSelect>img{
+    cursor: pointer;
+}
+.viewList{
+    width:16px;
+    color:#363637;
+}
+    .productsList{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        list-style-type: none;
+        padding: 0;
+        padding-bottom: 10px;
+        justify-items: center;
+        gap:17px
+    }
+    .prdctInfo{
+        margin: 0 14px;
+    }
+    .collectionTitle{
+        font-size:35px
+    }
+    .itemList{
+        position: relative;
+
+    }
+
+    .actionBtn{
+        padding: 0 14px;
+    }
+    .btn{
+        width: 100%;
+        padding: 11px 0;
+        font-size: 1.4rem;
+        transition: all .4s ease-in-out;
+        }
+        .atc{
+            border: 1px solid #AD7920;
+            background-color: #AD7920;
+            color: white;
+        }
+        .quiS{
+            border: 1px solid #363637;
+            color: white;
+            background-color: #363637;        
+        }
+        .atc:hover{
+        background-color:#ffffff;
+        color:black;
+        }
+        .addToCart{
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            flex-direction: column;
+            gap: 9px;
+        }
+      
+        .actionBtn{
+            display: block;
+        }
+        /* .itemList>.prdct>.productCard:hover{
+            
+        } */
+        .prdctSec{
+            padding-bottom: 14px;
+        }
+        .prdctSec:hover{
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 14px #00000018;
+        }
+        .prdctSec:hover .actionBtn{
+            display: block;
+        }
+     .filters{
+        display: none;
+     }
+     .filternSort{
+        display: flex;
+        justify-content: space-between;
+     }
+     .mobFilter{
+        color: #363637;
+        font-weight: bold;
+        font-size: 15px;
+     }
+     .mobFilter>svg{
+        height: 15px;
+     }
+    .prdctVariantImg{
+        width:35px;
+    }
+    .prdctVariantImg:hover{
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0 0 14px #b9b9b9;;
+    }
+    .prdctVariantDiv{
+        position: absolute;
+        bottom:-15px;
+    }
+    .filterUl{
+        list-style-type:none;
+        padding:0;
+    }
+    .filter-group-display__header-selected,.active-filters,.filter-group-display__submit{
+        display:none;
+    }
+    .iconF{
+        align-items: center;
+    }
+    .iconPM>svg{
+        width: 10px;
+    }
+ 
+    #iminus{
+        display: none;
+    }
+ 
+    .filterDetail[open] #iplus{
+        display: none;
+    }
+    .filterDetail[open] #iminus{
+        display: block;
+    }
+.filters{
+    display: none;
+    padding: 0 12px;
+    position: absolute;
+    opacity: 11;
+    top: 0px;
+    width: 100%;
+    background-color: white;
+    height: 374vh;
+    z-index: 4;
+}
+.mobFilter:target .filters{
+display: block;
+}
+.filterClose{
+    float:right;
+    zoom:1.5;
+}
+.optionSorts{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    padding: 9px;
+    text-align: center;
+    margin: 10px 0;
+}
+.sortback{
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background: #000000 0% 0% no-repeat padding-box;
+    z-index: 4;
+    left: 0;
+    opacity: 0.8;
+}
+
+.loadM{
+    border-top: 1px solid #686868;
+    text-align: center;
+    margin: 24px 0;
+    padding: 0;
+    padding-top: 15px;
+    color: #363636;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+
+.loader{
+    height: 100px;
+    width: 20%;
+    text-align: center;
+    padding: 1em;
+    margin: auto;
+    display: block;
+  }
+  
+  /*
+    Set the color of the icon
+  */
+  svg path,
+  svg rect{
+    fill: #AD7920;
+  }
+
+@media(min-width:1000px){
+    .collectionPg{
+        width:100%;
+        max-width: 1082px;
+        height: auto;
+    }
+    .collectionTitle{
+        font-size:40px;
+        margin: 28px 0;
+    }
+    .facetsForm{
+        display: flex;
+        justify-content: space-between;
+    }
+
+.sortView{
+    justify-content: space-between;
+    width: 100%;
+}
+    .itemList{
+        width: 100%;
+    }
+    .productImg {
+        width: 215px;
+        height: 215px;
+    }
+    .productsList{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap:34px;
+    }
+    .actionBtn{
+        display: none;
+        padding:0;
+    }
+    .addToCart{
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        flex-direction: row;
+        gap: 0px;
+    }
+   
+    .btn{
+        width:123px;
+    }
+    .sortBlk>select{
+        display:inline-block;
+    } 
+    .prdctSec{
+        padding-bottom: 0;
+    }
+    .productInfo{
+        margin: 0;
+    }
+    .filterCollec{
+        display: flex;
+        justify-content: center;
+        gap:45px;
+    }
+    .filters{
+        display: block;
+        width: 186px;
+        color: #363637;
+        background-color: transparent;
+        padding: 0;
+        position: sticky;
+        opacity: 1;
+        height: 100%;
+        z-index: 1;
+    }
+    .mobFilter,.filterClose{
+        display: none;
+    }
+    .optionSorts{
+        background:transparent;
+        border: none;
+        padding: 0;
+        text-align:center;
+        margin:0;
+    }
+    .mobSortOption{
+        display: inline-block;
+        position:static;
+        width:auto;
+        padding: 0;
+        transform: none;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        height: auto;
+    }
+    .mobSortOption>span{
+        display: none;
+    }
+}

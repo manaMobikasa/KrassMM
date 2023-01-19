@@ -1,0 +1,134 @@
+{{ 'krassCollection.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'productView.js' | asset_url }}" defer="defer"></script>
+
+<section class="collectionPageSection">
+
+    <div class="filterCollec">
+        <div class="filters">
+            <h4 class="fontKirvy">Filters <span class="filterClose" onclick="filterClose()">{% render
+                    'icon-close-small'%}</span></h4>
+            {% render 'fiters' %}
+        </div>
+        <div class="collectionPg">
+            <div class="fontKirvy">
+                {% render 'breadcrumb' %}
+            </div>
+            <div>
+                <form action="{{ routes.search_url }}" class="dis-flx searchbar">
+                    <input type="text" placeholder="Hookah" name="q" value="{{ search.terms | escape }}">
+                    {% render 'icon-search' %}
+                </form>
+            </div>
+            <div>
+                <h1 class="fontTitania collectionTitle">{{ collection.title }}</h1>
+            </div>
+            <div>
+                {%- paginate collection.products by 12 -%}
+                <div class="filternSort">
+                    <span class="mobFilter fontKiry" onclick="mobShowFilter()">{% render 'icon-filter' %} Filters</span>
+
+                    <div class="sortView fontKirvy">
+                        <div class="sortBlk">
+                            <span id="sortBy">Sort by</span>
+                            <div class="mobSortOption">
+                                <span class="flxView">
+                                    Sort by
+                                    <span id="sortClose">
+                                        {% render 'icon-close-small' %}
+                                    </span>
+                                </span>
+                                <select name="sorting" id="sort_by" class="sortOption" size="0">
+
+                                    {% for option in collection.sort_options %}
+                                    <option value="{{option.value}}" class="optionSorts fontKirvy" {% if
+                                        option.value==collection.sort_by %} selected {% endif %}>
+                                        {{ option.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="sortback"></div>
+                        </div>
+                        <div class="viewSelect fontKirvy">
+                            <span>View as</span> <img
+                                src="https://cdn.shopify.com/s/files/1/0619/0039/0599/files/icons8-health-data-24.png?v=1673521098"
+                                alt="grid" onclick="viewAsGrid()" title="view grid">
+                            <a href="#" class="viewList" onclick="viewAsList()" title="view list">{% render
+                                'icon-hamburger' %}</a>
+
+                        </div>
+                    </div>
+                </div>
+                {%- if collection.products.size == 0 -%}
+                <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+                    <div class="loading-overlay gradient"></div>
+                    <div class="title-wrapper center">
+                        <h2 class="title title--primary">
+                            {{ 'sections.collection_template.empty' | t }}<br>
+                            {{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class:
+                            "underlined-link link" }}
+                        </h2>
+                    </div>
+                </div>
+                {%- else -%}
+                <div class="">
+                    <div class="loading-overlay gradient"></div>
+
+                    <ul data-id="{{ section.id }}" class="productsList">
+                        {%- for product in collection.products -%}
+                        {% assign lazy_load = false %}
+                        {%- if forloop.index > 2 -%}
+                        {%- assign lazy_load = true -%}
+                        {%- endif -%}
+                        <li class="itemList hidden">
+                            <div class="prdctSec">
+                                {% render 'cardProduct',
+                                card_product: product,
+                                media_aspect_ratio: section.settings.image_ratio,
+                                show_secondary_image: section.settings.show_secondary_image,
+                                show_vendor: section.settings.show_vendor,
+                                show_rating: section.settings.show_rating,
+                                lazy_load: lazy_load,
+                                show_quick_add: section.settings.enable_quick_add,
+                                section_id: section.id
+                                %}
+                                <div class="actionBtn">
+                                    <form action="#" class="addToCart dis-flx" id="addToCartForm"
+                                        onclick="addtoCart(this)">
+                                        <input type="hidden" name="id" id="productId" value="{{ product.id }}" />
+                                        <button type="submit" class="btn atc">ADD TO CART</button>
+                                        <button class="btn quiS">QUICK SHOP</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        {%- endfor -%}
+                    </ul>
+
+                    {%- if paginate.pages > 1 -%}
+                    {% render 'pagination', paginate: paginate, anchor: '' %}
+                    {%- endif -%}
+                </div>
+                {%- endif -%}
+                {%- endpaginate -%}
+            </div>
+            <div id="loadMore" class="loadM fontKirvy">
+                Load More
+            </div>
+            <div id="loader" class="hidden">
+                <div class="loader loader--style3" title="take a breathe">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                        viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000"
+                            d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25"
+                                to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                        </path>
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+</section>

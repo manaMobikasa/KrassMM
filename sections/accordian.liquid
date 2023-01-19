@@ -1,0 +1,61 @@
+<ul class="accordion">
+  <li>
+    <a class="toggle" href="javascript:void(0);">Item 1</a>
+    <ul class="inner">
+      <li>Option 1</li>
+      <li>Option 2</li>
+      <li>Option 3</li>
+    </ul>
+  </li>
+  
+  <li>
+    <a class="toggle" href="javascript:void(0);">Item 2</a>
+    <ul class="inner">
+      <li>Option 1</li>
+      <li>Option 2</li>
+      <li>Option 3</li>
+    </ul>
+  </li>
+</ul>
+
+
+
+{% schema %}
+{
+"name": "Section name",
+"settings": [],
+"presets": [
+{
+"name": "Welcome section Test",
+"category": "ADVANCED LAYOUT"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+  
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+
+<script>
+ $('.toggle').click(function(e) {
+  	e.preventDefault();
+  
+    var $this = $(this);
+  
+    if ($this.next().hasClass('show')) {
+        $this.next().removeClass('show');
+        $this.next().slideUp(350);
+    } else {
+        $this.parent().parent().find('li .inner').removeClass('show');
+        $this.parent().parent().find('li .inner').slideUp(350);
+        $this.next().toggleClass('show');
+        $this.next().slideToggle(350);
+    }
+});
+</script>

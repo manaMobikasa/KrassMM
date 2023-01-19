@@ -1,0 +1,68 @@
+<section>
+    <div class="container">
+      <div class="section-title">
+         
+      </div>
+      <div class="row">
+        <div class="col-lg-12 d-flex flex-column justify-content-center pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+         <h1> {{ page.title}}</h2>
+         <small>{{page.published_at | date: '%B %d, %Y'}}</small>
+         {% for block in section.blocks %}
+          <div>{{ block.settings.heading }}</div>
+         {% endfor %}
+            
+      </div>
+    </div> 
+</div>
+  </section>
+
+{% schema %}
+{
+  "name": "AboutUs Section",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "slide",
+  "settings": [
+    {
+        "type": "select",
+        "id": "container",
+        "label": "Layout",
+        "options": [
+            {
+            "value": "container",
+            "label": "Container"
+            },
+
+            {
+            "value": "container-fluid",
+            "label": "Container Fluid"
+            }
+        ],
+        "default": "container"
+    },
+    
+
+    {
+        "type": "checkbox",
+        "id": "show_date",
+        "label": "Show Date",
+        "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Content"
+    } 
+  ]
+}
+]
+ 
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,21 @@
+<h1>Search Results</h1>
+<form action="/search" method="get" role="search">
+    <input type="search" name="q" value="{{search.terms | escape}}">
+    <button type="submit">Search</button>
+</form>
+{% if search.performed %}
+    {% for item in search.results %}
+        {% if item.featured_image %}
+            <a href="{{item.url | within: collection}}" title="{{item.title | escape}}">
+                {{item.featured_image.src | img_url: 'medium' | img_url: item.featured_image.alt}}
+            </a>    
+        {% endif %}  
+        
+        <h5>{{item.title | link_to: item_url}}</h5>
+        <p>{{item.content | strip_html | truncatewords: 40}}</p>
+
+        {% else %}
+
+        no results
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,268 @@
+{{ 'krass_orderD.css' | asset_url | stylesheet_tag }}
+
+
+<div class="customer order orderDetailPg">
+  <svg style="display:none">
+    <symbol id="icon-discount" viewBox="0 0 12 12">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z"
+        fill="currentColor">
+    </symbol>
+  </svg>
+  <div class="myAcc fontTitania">
+    <h1 class="fontTitania">My {{ 'customer.account.title' | t }}</h1>
+    {%- comment -%} <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>{%- endcomment -%}
+  </div>
+  <div class="orderPg">
+    <div class="orderPgItemInfo">
+      <div class="myOrderDiv">
+        <h2 class="fk myOrd m-13">My Orders</h2>
+
+        <div class="dis-f jc-sb ai-c">
+          <h2 class="fk m-13">{{ 'customer.order.title' | t: name: order.name }}</h2>
+          {%- assign order_date = order.created_at | time_tag: '%d %b, %Y' -%}
+          <p class="fk">DATE: {{ order_date }}</p>
+        </div>
+
+        {%- if order.cancelled -%}
+        {%- assign cancelled_at = order.cancelled_at | time_tag: format: "date_at_time" -%}
+        <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+        <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+        {%- endif -%}
+
+        <table role="table" class="order-details table_orderD">
+          <caption class="visually-hidden">{{ 'customer.order.title' | t: name: order.name }}</caption>
+          <tbody role="rowgroup">
+            {%- for line_item in order.line_items -%}
+            <tr role="row">
+              <td id="Row{{ line_item.key }}" headers="ColumnProduct" role="rowheader" scope="row"
+                data-label="{{ 'customer.order.product' | t }}" class="orderItemDt">
+                <div class="orderItemInfo">
+                  <div class="orderItemImgDiv">
+                    <img src="{{ line_item.image | img_url: 'small' }}" alt="{{ line_item.title }}">
+                  </div>
+                  <div>
+                    {%- if line_item.url != blank -%}
+                    <a href="{{ line_item.url }}" class="text-d-none fk orderItemTitle">{{ line_item.title }}</a>
+                    {%- else -%}
+                    <p>{{ line_item.title }}</p>
+                    {%- endif -%}
+                    <p class="fk" style="color: black;">
+                      Price &nbsp{%- if line_item.original_line_price != line_item.final_line_price -%}
+                    <dl>
+                      <dt>
+                        <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                      </dt>
+                      <dd class="regular-price">
+                        <s>{{ line_item.original_line_price | money_without_trailing_zeros }}</s>
+                      </dd>
+                      <dt>
+                        <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                      </dt>
+                      <dd>
+                        <span>{{ line_item.final_line_price | money_without_trailing_zeros }}</span>
+                      </dd>
+                    </dl>
+                    {%- else -%}
+                    {{ line_item.original_line_price | money_without_trailing_zeros }}
+                    {%- endif -%}
+                    </p>
+                  </div>
+
+
+
+                  {%- assign property_size = line_item.properties | size -%}
+                  {%- unless line_item.selling_plan_allocation == nil and property_size == 0 -%}
+                  <div class="properties">
+                    {%- unless line_item.product.has_only_default_variant -%}
+                    <span>
+                      {{ line_item.variant.title }}
+                    </span>
+                    {%- endunless -%}
+                    {%- unless line_item.selling_plan_allocation == nil -%}
+                    <span>
+                      {{ line_item.selling_plan_allocation.selling_plan.name }}
+                    </span>
+                    {%- endunless -%}
+                    {%- if property_size != 0 -%}
+                    {%- for property in line_item.properties -%}
+                    {% assign property_first_char = property.first | slice: 0 %}
+                    {%- if property.last != blank and property_first_char != '_' -%}
+                    <span>
+                      {{ property.first }}:&nbsp;
+                      {%- if property.last contains '/uploads/' -%}
+                      <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                      {%- else -%}
+                      {{ property.last }}
+                      {%- endif -%}
+                    </span>
+                    {%- endif -%}
+                    {%- endfor -%}
+                    {%- endif -%}
+                  </div>
+                  {%- endunless -%}
+
+                  {%- if line_item.line_level_discount_allocations != blank -%}
+                  <ul role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                    {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                    <li>
+                      <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
+                        <use href="#icon-discount" />
+                      </svg>
+                      {{- discount_allocation.discount_application.title }} (-{{ discount_allocation.amount |
+                      money_without_trailing_zeros -}})
+                    </li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- endif -%}
+
+                  {%- if line_item.fulfillment -%}
+                  <div class="fulfillment">
+                    {%- assign created_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                    <span>{{ 'customer.order.fulfilled_at_html' | t: date: created_at }}</span>
+
+                    {%- if line_item.fulfillment.tracking_url -%}
+                    <a href="{{ line_item.fulfillment.tracking_url }}">
+                      {{ 'customer.order.track_shipment' | t }}
+                    </a>
+                    {%- endif -%}
+                    <span>
+                      {{ line_item.fulfillment.tracking_company }}
+                      {%- if line_item.fulfillment.tracking_number -%} #{{ line_item.fulfillment.tracking_number }} {%-
+                      endif -%}
+                    </span>
+                  </div>
+                  {%- endif -%}
+                </div>
+                <p class="fk m-21">
+                  <span>STATUS:</span>
+                  <span class="c-blk">{{ order.fulfillment_status_label | upcase}}</span>
+                </p>
+              </td>
+            </tr>
+            {%- endfor -%}
+          </tbody>
+          <tfoot role="rowgroup">
+            <tr role="row">
+              <td id="RowSubtotal" role="rowheader" scope="row" colspan="4" class="orderD">
+                <p>{{ 'customer.order.subtotal' | t | upcase }}</p>
+                <p>{{ order.line_items_subtotal_price | money_without_trailing_zeros}}</p>
+              </td>
+            </tr>
+            {%- for shipping_method in order.shipping_methods -%}
+            <tr role="row" class="orderD">
+              <td id="RowShipping" role="rowheader" scope="row">
+                {{ 'customer.order.shipping' | t | upcase }} ({{
+                shipping_method.title }}) {{ shipping_method.price | money_without_trailing_zeros }}</td>
+            </tr>
+            {%- endfor -%}
+            <tr>
+              <td class="orderD">
+                <p>{{ 'customer.order.shipping' |t |upcase }}</p>
+                <p> {{ order.shipping_price | money_without_trailing_zeros }}</p>
+              </td>
+            </tr>
+            {%- if order.discount_applications != blank -%}
+            <tr role="row">
+              {%- for discount_application in order.discount_applications -%}
+              <td id="RowDiscount" role="rowheader" scope="row" colspan="4">
+                {{ 'customer.order.discount' | t }}
+                <span class="cart-discount">
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
+                    <use href="#icon-discount" />
+                  </svg>
+                  {{- discount_application.title -}}
+                </span>
+                <div>
+                  <span>-{{ discount_application.total_allocated_amount | money }}</span>
+                  <span class="cart-discount">
+                    <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
+                      <use href="#icon-discount" />
+                    </svg>
+                    {{- discount_application.title -}}
+                  </span>
+                </div>
+
+                {%- endfor -%}
+              </td>
+            </tr>
+            {%- endif -%}
+            <tr>
+              <td class="orderD">
+                <p>{{ 'customer.order.tax'|t | append:'es' | upcase}}</p>
+                <p>{{ order.tax_price | money_without_trailing_zeros}}</p>
+              </td>
+            </tr>
+            <tr role="row">
+              <td headers="RowTotal" role="cell" data-label="{{ 'customer.order.total' | t }}" class="orderD">
+                <p style="font-weight: 700;">GRAND {{ 'customer.order.total' | t |upcase}}</p>
+                <p class="gTotal">{{ order.total_price | | money_without_trailing_zeros }}</p>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div>
+        <div>
+          <h2 class="addr">Addresses</h2>
+          <div class="dis-f addresses">
+            {% for address in customer.addresses %}
+
+            <div class="address">
+              <div class="addressDetail">
+                <p>{{ address.name }}</p>
+                <p>{{ address.company }}</p>
+                <p>{{ address.street }}</p>
+                <p>{{ address.city }}</p>
+                <p>{{ address.country }}</p>
+                <p>{{ address.phone }}</p>
+              </div>
+
+              <div class="addressAction">
+
+                <button class="btnEdit" style=" background-color: #B88B3F;">EDIT</button>
+                <button>DELETE</button>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="defAddress">
+      <h2 class="custName fontKirvy">{{ customer.name }}</h2>
+      <p class="custEmail">{{ customer.email }}</p>
+      <div>
+        <h2 class="custName fontKirvy">Default Address</h2>
+        <div class="defAdrss fontKirvy">
+          {{ customer.default_address | format_address }}
+          {{ customer.phone }}
+        </div>
+        <p>
+          <a href="{{routes.account_addresses_url}}" class="custEmail fontKirvy" style="color: #AD7920 ">View address
+            ({{ customer.addresses_count
+            }})</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+<div class="form--edit-address">
+  {% form 'customer_address', address %}
+  <input type="text" name="address[first_name]" value="{{ form.first_name }}" placeholder="First Name">
+  <input type="text" name="address[last_name]" value="{{ form.last_name }}" placeholder="Last Name">
+  <input type="text" name="address[company]" value="{{ form.company }}" placeholder="Company">
+  <input type="text" name="address[address1]" value="{{ form.address1 }}" placeholder="Address Line 1">
+  <input type="text" name="address[address2]" value="{{ form.address2 }}" placeholder="Address Line 2">
+  <input type="text" name="address[city]" value="{{ form.city }}" placeholder="City">
+  <select name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+  <select name="address[province]" data-default="{{ form.province }}"></select>
+  <input type="text" name="address[zip]" value="{{ form.zip }}" placeholder="ZIP/Postal Code">
+  <input type="text" name="address[phone]" value="{{ form.phone }}" placeholder="Phone Number">
+
+  <button type="submit" class="btn btn-xs btn-primary">Update Address</button>
+  {% endform %}
+</div>
+{%- endcomment -%}
